@@ -11,10 +11,9 @@ export function Button({
   return (
     <button
       className={clsx(
-        "px-12 py-5 text-base font-medium rounded",
+        "px-8 md:px-12 py-3 md:py-5 text-sm lg:text-base font-medium rounded border border-solid",
         {
-          "bg-white text-black border border-solid border-lila-slate-200":
-            variant === "primary",
+          "bg-white text-black border-lila-slate-200": variant === "primary",
           "flex items-center gap-2.5": icon,
         },
         className
