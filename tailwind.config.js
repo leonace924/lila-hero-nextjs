@@ -7,15 +7,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "lila-slate" : "#FAFAEF",
+        "lila-slate": {
+          100: "#FAFAEF",
+          200: "#F0F0E5",
+        },
         "lila-dark": "#151318",
         "lila-gray": {
-          "100": "#222432",
-          "200": "#383A46",
-          "300": "#7A7A7A",
-        }
-      }
+          100: "#222432",
+          200: "#383A46",
+          300: "#7A7A7A",
+        },
+      },
     },
   },
   plugins: [],
-};
+}
