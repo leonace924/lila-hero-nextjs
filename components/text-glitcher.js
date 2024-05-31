@@ -25,7 +25,7 @@ const TextGlitcher = ({ text }) => {
       const originalText = text;
 
       const shuffleText = () => {
-        if (revealProgress < originalText.length - 1) {
+        if (revealProgress < originalText.length) {
           const randomChars = originalText
             .split('')
             .map((char, index) => {
@@ -38,19 +38,26 @@ const TextGlitcher = ({ text }) => {
           if (shuffleCounts[revealProgress] <= 0) {
             revealProgress++;
           }
-        } else if (revealProgress === originalText.length - 1) {
+        } else if (revealProgress === originalText.length) {
           setTimeout(() => {
             setGlitchText(originalText);
-          }, 80); // Delay before showing the last letter
+            setTimeout(() => {
+              // Add a slower animation to the last letter
+              if (textRef.current) textRef.current.classList.add('last-letter');
+            }, 200); // Adjust this delay as needed for the slower animation
+          }, 200); // Adjust this delay as needed
           revealProgress++;
         } else {
           clearInterval(interval);
         }
       };
 
-      interval = setInterval(shuffleText, 100); // Adjust interval duration for slower revealing
+      interval = setInterval(shuffleText, 60); // Adjust interval duration for slower revealing
     } else {
       setGlitchText(text);
+      if (textRef.current) {
+        textRef.current.classList.remove('last-letter');
+      }
     }
 
     return () => clearInterval(interval);
