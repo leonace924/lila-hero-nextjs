@@ -4,7 +4,7 @@
     display: inline-flex;
     position: relative;
     color: #fff;
-    font-size: 3rem;
+    font-size: 2.5rem;
     transition: color 0.2s;
     position: relative;
   }
@@ -29,6 +29,12 @@
     animation: glitch 2.5s infinite;
   }
 
+  .glitch-text.scramble {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   .background-item {
     position: absolute;
     top: 0;
@@ -42,22 +48,30 @@
     background-size: 100% 100%;
     border-radius: 4px;
     transition: transform .4s cubic-bezier(.55,0,.1,1);
-    transform: scaleX(0);
+    /* transform: scaleX(0); */
     transform-origin: right center;
-    will-change: transform;
+    /* will-change: transform; */
+    transform: translateY(-.2rem) translateX(-1rem);
+    opacity:  0;
     background: linear-gradient(315deg, transparent .65em, white .65em);
   }
 
+  .bg-full .original{
+    opacity: 0;
+  }
+
   .item-content {
+    display: inline-block;
+    padding: .3rem 1.6rem .3rem .6rem;
     position: relative;
-    display: inline-flex;
     z-index: 1;
-    padding: 0.25rem 2rem;
+    cursor: pointer;
   }
 
   .item-content:hover .background-item {
-    transform: scaleX(1);
-    transform-origin: left center;
+    opacity: 1;
+    /* transform: scaleX(1); */
+    /* transform-origin: left center; */
   }
 
   .item-content:hover .glitch-text {

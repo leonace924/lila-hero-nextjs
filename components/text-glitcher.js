@@ -17,60 +17,75 @@ const TextGlitcher = ({ text }) => {
   )
 
   useEffect(() => {
-    let interval;
+    let interval
     if (hovering) {
-      const shuffleCounts = Array.from({ length: text.length }, (_, i) => (i + 1) * 5); // Increase shuffle counts from left to right
-      let revealProgress = 0;
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      const originalText = text;
+      const shuffleCounts = Array.from(
+        { length: text.length },
+        (_, i) => (i + 1) * 5
+      ) // Increase shuffle counts from left to right
+      let revealProgress = 0
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+      const originalText = text
 
       const shuffleText = () => {
         if (revealProgress < originalText.length) {
           const randomChars = originalText
-            .split('')
+            .split("")
             .map((char, index) => {
-              if (index < revealProgress) return char;
-              return shuffleCounts[index]-- > 0 ? (char === ' ' ? ' ' : characters.charAt(Math.floor(Math.random() * characters.length))) : char;
+              if (index < revealProgress) return char
+              return shuffleCounts[index]-- > 0
+                ? char === " "
+                  ? " "
+                  : characters.charAt(
+                      Math.floor(Math.random() * characters.length)
+                    )
+                : char
             })
-            .join('');
-          setGlitchText(randomChars);
+            .join("").slice(0, -1)
+          setGlitchText(randomChars)
 
           if (shuffleCounts[revealProgress] <= 0) {
-            revealProgress++;
+            revealProgress++
           }
         } else if (revealProgress === originalText.length) {
           setTimeout(() => {
-            setGlitchText(originalText);
+            setGlitchText(originalText)
             setTimeout(() => {
               // Add a slower animation to the last letter
-              if (textRef.current) textRef.current.classList.add('last-letter');
-            }, 200); // Adjust this delay as needed for the slower animation
-          }, 200); // Adjust this delay as needed
-          revealProgress++;
+              if (textRef.current) textRef.current.classList.add("last-letter")
+            }, 120) // Adjust this delay as needed for the slower animation
+          }, 120) // Adjust this delay as needed
+          revealProgress++
         } else {
-          clearInterval(interval);
+          clearInterval(interval)
+          setHovering(false)
         }
-      };
-
-      interval = setInterval(shuffleText, 60); // Adjust interval duration for slower revealing
-    } else {
-      setGlitchText(text);
-      if (textRef.current) {
-        textRef.current.classList.remove('last-letter');
       }
+
+      interval = setInterval(shuffleText, 30) // Adjust interval duration for slower revealing
+    } else {
+      setGlitchText(text)
+      if (textRef.current) {
+        textRef.current.classList.remove("last-letter")
+      }
+      setHovering(false)
     }
 
-    return () => clearInterval(interval);
-  }, [hovering, text]);
+    return () => clearInterval(interval)
+  }, [hovering, text])
 
   const scrambleText = (inputText) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    return inputText.split('').map(char => {
-      if (char === ' ') return ' ';
-      return characters.charAt(Math.floor(Math.random() * characters.length));
-    }).join('');
-  };
-
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    return inputText
+      .split("")
+      .map((char) => {
+        if (char === " ") return " "
+        return characters.charAt(Math.floor(Math.random() * characters.length))
+      })
+      .join("")
+  }
 
   const handleMouseEnter = () => {
     setHovering(true)
@@ -79,16 +94,17 @@ const TextGlitcher = ({ text }) => {
 
   return (
     <div className="inline-block">
-      <div className="item-content">
-        <span className="background-item"></span>
-        <div
-          ref={textRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={() => setHovering(false)}
-          className="glitch-text"
-        >
-          {glitchText}
+      <div
+        className="item-content"
+        ref={textRef}
+        onMouseEnter={handleMouseEnter}
+        // onMouseLeave={() => setHovering(false)}
+      >
+        <div className="bg-full">
+          <span className="background-item"></span>
+          <div className="glitch-text original">{text}</div>
         </div>
+        <div className="glitch-text scramble">{glitchText}</div>
       </div>
     </div>
   )
